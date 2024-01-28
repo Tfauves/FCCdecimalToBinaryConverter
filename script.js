@@ -1,39 +1,55 @@
 const numberInput = document.getElementById("number-input");
 const convertBtn = document.getElementById("convert-btn");
 const result = document.getElementById("result");
+const animationContainer = document.getElementById("animation-container");
+const animationData = [
+  {
+    inputVal: 5,
+    marginTop: 300,
+    addElDelay: 1000,
+  },
+  {
+    inputVal: 2,
+    marginTop: -200,
+    addElDelay: 1500,
+  },
+  {
+    inputVal: 1,
+    marginTop: -200,
+    addElDelay: 2000,
+  },
+];
 
-const countdown = (number) => {
-  console.log(number);
-
-  if (number === 0) {
-    return;
+const decimalToBinary = (input) => {
+  if (input === 0 || input === 1) {
+    return String(input);
   } else {
-    countdown(number - 1);
+    return decimalToBinary(Math.floor(input / 2)) + (input % 2);
   }
 };
 
-const decimalToBinary = (input) => {
-  let binary = "";
+const showAnimation = () => {
+  result.innerText = "Call Stack Animation";
 
-  if (input === 0) {
-    binary = "0";
-  }
-
-  while (input > 0) {
-    binary = (input % 2) + binary;
-    input = Math.floor(input / 2);
-  }
-
-  result.innerText = binary;
+  animationData.forEach((obj) => {
+    setTimeout(() => {}, obj.addElDelay);
+  });
 };
 
 const checkUserInput = () => {
-  if (!numberInput.value || isNaN(parseInt(numberInput.value))) {
+  const inputInt = parseInt(numberInput.value);
+
+  if (!numberInput.value || isNaN(inputInt)) {
     alert("Please provide a decimal number");
     return;
   }
 
-  decimalToBinary(parseInt(numberInput.value));
+  if (inputInt === 5) {
+    showAnimation();
+    return;
+  }
+
+  result.textContent = decimalToBinary(inputInt);
   numberInput.value = "";
 };
 
